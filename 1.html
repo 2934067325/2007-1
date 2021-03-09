@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="js/vue.js"></script>
+</head>
+
+<body>
+  <style>
+    #app {
+      display: flex;
+      justify-content: center;
+      margin: 100px;
+    }
+
+    .left {
+      width: 20%;
+      height: 600px;
+      background-color: #32478A;
+      display: flex;
+      justify-content: center;
+      color: white;
+    }
+
+    .left ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    /* ul>li {
+      display: block;
+      margin-top: 30px;
+    } */
+
+    .right {
+      width: 70%;
+      height: 600px;
+      background-color: #F7F8FD;
+    }
+
+    .right>div {
+      padding-left: 20px;
+    }
+
+    button {
+      width: 80px;
+      height: 30px;
+      font-size: 1rem;
+      background-color: #6295F7;
+      border: 0;
+      border-radius: 3px;
+      color: white;
+      margin-right: 10%;
+      outline: none;
+    }
+
+    #title {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .in {
+      width: 90%;
+      border: 1px solid silver;
+      height: 30px;
+      margin-top: 10px;
+      padding: 5px;
+      background-color: white;
+      border-radius: 3px
+    }
+
+    .in input {
+      border: none;
+      outline: none;
+    }
+
+    .modal {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-content {
+      width: 500px;
+      height: 500px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .modal-content input {
+      width: 160px;
+      height: 20px;
+      margin-top: 10px;
+      border: 1px solid silver;
+      outline: none;
+      border-radius: 3px;
+    }
+
+    .modal-content select {
+      height: 20px;
+      width: 160px;
+      margin-top: 10px;
+      border: 1px solid silver;
+      border-radius: 3px;
+      outline: none;
+    }
+
+    .modal-content button {
+      margin-top: 10px;
+    }
+
+    .modal-head {
+      position: relative;
+      height: 44px;
+      background-color: #6295F7;
+      line-height: 44px;
+      padding: 0 15px;
+      color: white;
+    }
+
+    .modal-head p {
+      margin: 0;
+    }
+
+    .modal-head .close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 44px;
+      line-height: 44px;
+      text-align: center;
+      width: 44px;
+      color: orangered;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      margin: 15px;
+    }
+
+    /* .sprites {
+      float: left;
+      width: 20px;
+      height: 20px;
+      background-image: url("img/导航栏01.png");
+      background-size: 60px 40px;
+    } */
+
+    .sprites1 {
+      background-position: 0 0;
+    }
+
+
+    /* 精灵图 */
+    ul li {
+      height: 35px;
+      display: block;
+      margin-top: 30px;
+    }
+
+    ul li i {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      margin-right: 3px;
+      vertical-align: middle;
+      background-image: url("img/导航栏01.png");
+      background-size: 200px auto;
+    }
+
+    ul li.rw i {
+      background-position: 0px 27px;
+    }
+
+    ul li.xm i {
+      background-position: -315px 27px;
+    }
+
+    ul li.wt i {
+      background-position: -85px 27px;
+    }
+
+    ul li.pj i {
+      background-position: -143px 27px;
+    }
+
+    ul li.da i {
+      background-position: -230px 27px;
+    }
+
+    ul li.zz i {
+      background-position: -460px 27px;
+    }
+
+    ul li.yh i {
+      background-position: -373px 27px;
+    }
+  </style>
+  <div id="app">
+    <div class="left">
+      <ul>
+        <span class="sprites1"></span>
+        <li class="rw">
+          <i></i>
+          我的任务
+        </li>
+        <li class="xm">
+          <i></i>
+          项目管理
+        </li>
+        <li class="wt">
+          <i></i>
+          问题管理
+        </li>
+        <li class="pj">
+          <i></i>
+          任务评价
+        </li>
+        <li class="da">
+          <i></i>
+          档案库
+        </li>
+        <li class="zz">
+          <i></i>
+          组织管理
+        </li>
+        <li class="yh">
+          <i></i>
+          用户管理
+        </li>
+      </ul>
+    </div>
+    <div class="right">
+      <div>
+        <div id="title"><span>个人信息</span> <button @click="editItem(ad,index)">修改</button></div>
+        <div class="in"><span>账号名：</span><input type="text" v-model="user" /></div>
+        <div class="in"><span>姓名：</span><input type="text" v-model="name" /></div>
+        <div class="in"><span>性别:</span><input type="text" v-model="sex" /></div>
+        <div class="in"><span>密码：</span><input type="text" v-model="pwd" /></div>
+      </div>
+    </div>
+    <modal :visible="showModal" @update="showModal=$event;">
+      <p slot="tiltle">个人信息</p>
+      <div slot="content">
+        账号名：<input type="text" v-model="current.user" />
+        姓&nbsp;&nbsp;名：<input type="text" v-model="current.name" /><br>
+        <!-- 性别：<input type="text"  /> -->
+        性&nbsp;&nbsp;别：<select name="sex" v-model="current.sex">
+          <option value="女">女</option>
+          <option value="男">男</option>
+        </select>
+        密&nbsp;&nbsp;码：<input type="text" v-model="current.pwd" />
+        <br>
+        <button type="button" @click="sureHd()">确定</button>
+        <button type="button" @click="cancelHd()">取消</button>
+      </div>
+
+    </modal>
+  </div>
+  <script>
+    const modal = {
+      template: `
+				<div class="modal" v-if="visible">
+				<div class="modal-content">
+					<div class="modal-head">
+						<slot name="tiltle"></slot>
+					</div>
+					<div class="modal-body">
+						<slot name="content"></slot>
+					</div>
+				</div>
+			</div>`,
+      props: {
+        "visible": {
+          type: Boolean,
+          default: false,
+          //接收父组件传入的值
+          //组件的显示与隐藏有visible来控制
+        }
+      },
+      methods: {
+        call() {
+          //将弹出框关闭，没有进行任何操作
+          this.$emit('update', false);
+        }
+      }
+    }
+
+    new Vue({
+      el: "#app",
+      components: {
+        modal
+      },
+      data: {
+        showModal: false,
+
+        user: "小明",
+        name: "安比",
+        sex: "女",
+        pwd: "123456",
+
+        ad: {
+          user: "小明",
+          name: "安比",
+          sex: "女",
+          pwd: "123456",
+        },
+        current: {},//正在编辑的数据
+        editIndex: {},//当前编辑的下标
+        tiltle: "",
+        content: "",
+        time: "",
+      },
+      methods: {
+        editItem(ad, index) {
+          this.current = { ...ad };//把item解构，切断他们之间的联系，因为是引用类型
+          this.showModal = true;
+        },
+        sureHd() {
+          this.ad = { ...this.current };
+          this.user = this.ad.user,
+            this.name = this.ad.name,
+            this.sex = this.ad.sex,
+            this.pwd = this.ad.pwd,
+            console.log(this.ad);
+          this.showModal = false;
+        },
+        cancelHd() {
+          this.showModal = false;
+        },
+
+      }
+    })
+  </script>
+</body>
+
+</html>
